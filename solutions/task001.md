@@ -127,20 +127,20 @@ df -h /var/www/html/site
 
 ```bash
 # 1. Configure a interface de rede principal com IP estático.
-# (Substitua 'enp2s0' pelo nome da sua interface, ex: ens192, eth0)
+# (Substitua 'eth0' pelo nome da sua interface, ex: ens192, eth0)
 # A forma mais robusta é usando nmcli:
-sudo nmcli connection modify enp2s0 ipv4.method manual ipv4.addresses 192.168.xxx.10/24 autoconnect yes connection.zone public
+sudo nmcli connection modify eth0 ipv4.method manual ipv4.addresses 172.25.250.10/24 autoconnect yes connection.zone public
 
 # Para o hostname, edite o arquivo /etc/hostname:
-sudo hostnamectl set-hostname rhel9-client-001.example.com
+sudo hostnamectl set-hostname servera.lab.example.com
 
 # 2. Reinicie o serviço de rede.
-sudo nmcli connection up enp2s0
+sudo nmcli connection up eth0
 # Ou: sudo systemctl restart NetworkManager
 
 # 3. Verifique se o hostname e as configurações de IP foram aplicados.
 hostname
-ip a show enp2s0 # Ou o nome da sua interface
+ip a show eth0 # Ou o nome da sua interface
 ping -c 3 google.com
 
 # 4. Abra a porta 80 (HTTP) e 443 (HTTPS) no FirewallD permanentemente.

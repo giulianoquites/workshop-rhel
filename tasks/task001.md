@@ -47,11 +47,9 @@ Você precisa configurar o sistema com um IP estático e garantir que os serviç
 
 ### Objetivos:
 
-* Configure a interface de rede (ex: `enp2s0`, - use `ip a` para verificar o nome) com as seguintes configurações estáticas:
-    * Endereço IP no rhel9-client: **`192.168.xxx.10/24`**
-* Defina o hostname do sistema para **`rhel9-client-00X.example.com`**.
-    * Endereço IP no rhel9-server: **`192.168.xxx.20/24`**
-* Defina o hostname do sistema para **`rhel9-server-00X.example.com`**.
+* Configure a interface de rede (ex: `eth0`, - use `ip a` para verificar o nome) com as seguintes configurações estáticas:
+    * Endereço IP no servera: **`172.25.250.10/24`**
+* Defina o hostname do sistema para **`servera.lab.example.com`**.
 * Reinicie o serviço de rede para aplicar as mudanças.
 * Verifique se o hostname e as configurações de IP foram aplicados.
 * Abra a porta **`80`** (HTTP) e **`443`** (HTTPS) no FirewallD permanentemente.
