@@ -25,11 +25,11 @@ A equipe de desenvolvimento precisa de uma nova estrutura de acesso para um proj
 Você precisa expandir o armazenamento disponível para um novo serviço e gerenciá-lo com LVM.
 
 ### Pré-requisito:
-Adicione um novo disco virtual à sua VM (ex: **/dev/sdb**) de pelo menos 5GB.
+Adicione um novo disco virtual à sua VM (ex: **/dev/vdb** e **/dev/vdd**) de pelo menos 5GB.
 
 ### Objetivos:
 
-* Crie um Volume Físico (PV) no novo disco **/dev/sdb**.
+* Crie um Volume Físico (PV) no novo disco **/dev/vdb** e **/dev/vdd**.
 * Crie um Grupo de Volumes (VG) chamado **`vg_data`** usando o PV recém-criado.
 * Crie um Volume Lógico (LV) chamado **`lv_web_content`** de 2GB dentro de **`vg_data`**.
 * Formate **`lv_web_content`** com o sistema de arquivos **XFS**.
@@ -47,9 +47,11 @@ Você precisa configurar o sistema com um IP estático e garantir que os serviç
 
 ### Objetivos:
 
-* Configure a interface de rede principal (ex: `ens192`, `eth0` - use `ip a` para verificar o nome) com as seguintes configurações estáticas:
-    * Endereço IP: **`192.168.xxx.10/24`**
-* Defina o hostname do sistema para **`servidorweb.example.com`**.
+* Configure a interface de rede (ex: `enp2s0`, - use `ip a` para verificar o nome) com as seguintes configurações estáticas:
+    * Endereço IP no rhel9-client: **`192.168.xxx.10/24`**
+* Defina o hostname do sistema para **`rhel9-client-00X.example.com`**.
+    * Endereço IP no rhel9-server: **`192.168.xxx.20/24`**
+* Defina o hostname do sistema para **`rhel9-server-00X.example.com`**.
 * Reinicie o serviço de rede para aplicar as mudanças.
 * Verifique se o hostname e as configurações de IP foram aplicados.
 * Abra a porta **`80`** (HTTP) e **`443`** (HTTPS) no FirewallD permanentemente.

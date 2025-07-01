@@ -63,14 +63,14 @@ ls -l /srv/projetodelta/relatorio_dev1.txt
 ### Solução:
 
 ```bash
-# 1. Crie um Volume Físico (PV) no novo disco /dev/sdb.
-sudo pvcreate /dev/sdb
+# 1. Crie um Volume Físico (PV) no novo disco /dev/vdc /dev/vdd.
+sudo pvcreate /dev/vdc /dev/vdd
 
 # Verificação:
 sudo pvs
 
 # 2. Crie um Grupo de Volumes (VG) chamado vg_data usando o PV recém-criado.
-sudo vgcreate vg_data /dev/sdb
+sudo vgcreate vg_data /dev/vdc /dev/vdd
 
 # Verificação:
 sudo vgs
@@ -127,20 +127,20 @@ df -h /var/www/html/site
 
 ```bash
 # 1. Configure a interface de rede principal com IP estático.
-# (Substitua 'enp0s3' pelo nome da sua interface, ex: ens192, eth0)
+# (Substitua 'enp2s0' pelo nome da sua interface, ex: ens192, eth0)
 # A forma mais robusta é usando nmcli:
-sudo nmcli connection modify enp0s3 ipv4.method manual ipv4.addresses 192.168.xxx.10/24 autoconnect yes connection.zone public
+sudo nmcli connection modify enp2s0 ipv4.method manual ipv4.addresses 192.168.xxx.10/24 autoconnect yes connection.zone public
 
 # Para o hostname, edite o arquivo /etc/hostname:
-sudo hostnamectl set-hostname servidorweb.example.com
+sudo hostnamectl set-hostname rhel9-client-001.example.com
 
 # 2. Reinicie o serviço de rede.
-sudo nmcli connection up enp0s3
+sudo nmcli connection up enp2s0
 # Ou: sudo systemctl restart NetworkManager
 
 # 3. Verifique se o hostname e as configurações de IP foram aplicados.
 hostname
-ip a show enp0s3 # Ou o nome da sua interface
+ip a show enp2s0 # Ou o nome da sua interface
 ping -c 3 google.com
 
 # 4. Abra a porta 80 (HTTP) e 443 (HTTPS) no FirewallD permanentemente.
@@ -286,8 +286,8 @@ sudo systemctl is-enabled nginx
 ```bash
 # PRÉ-REQUISITO: Certifique-se de ter um VG existente (ex: vg_data do exercício anterior)
 # Se não tiver, crie um VG para praticar este exercício:
-# sudo pvcreate /dev/sdb # Use um disco disponível, ex: sdb
-# sudo vgcreate vg_system /dev/sdb
+# sudo pvcreate /dev/vdc /dev/vdd # Use um disco disponível, ex: vdc /dev/vdd
+# sudo vgcreate vg_system /dev/vdc /dev/vdd
 
 # 1. Crie um Volume Lógico (LV) de 1GB para swap chamado lv_swap no VG 'vg_system'.
 sudo lvcreate -n lv_swap -L 1G vg_system
