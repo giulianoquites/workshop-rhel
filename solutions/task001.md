@@ -720,7 +720,7 @@ echo "Exercício concluído!"
 
 Vamos passo a passo para configurar ambos os lados.
 
-### Parte 1: Configuração do Servidor NFS (`192.168.xxx.10`)
+### Parte 1: Configuração do Servidor NFS (`172.25.250.11`)
 
 ```bash
 # 1. Instale os pacotes necessários para o servidor NFS.
@@ -786,8 +786,8 @@ sudo dnf install -y nfs-utils
 sudo mkdir -p /mnt/nfs_docs
 
 # 3. Monte o compartilhamento NFS do servidor no ponto de montagem do cliente.
-# Substitua 192.168.xxx.10 pelo IP real do seu servidor NFS.
-sudo mount 192.168.xxx.10:/srv/nfs_share /mnt/nfs_docs
+# Substitua 172.25.250.11 pelo IP real do seu servidor NFS.
+sudo mount 172.25.250.11:/srv/nfs_share /mnt/nfs_docs
 
 # Verifique se a montagem foi bem-sucedida.
 df -h /mnt/nfs_docs
@@ -798,15 +798,15 @@ df -h /mnt/nfs_docs
 sudo vi /etc/fstab # ou sudo nano /etc/fstab
 
 # Adicione a seguinte linha no final do arquivo:
-# Substitua 192.168.xxx.10 pelo IP real do seu servidor NFS.
-# 192.168.xxx.10:/srv/nfs_share /mnt/nfs_docs nfs defaults,_netdev 0 0
+# Substitua 172.25.250.11 pelo IP real do seu servidor NFS.
+# 172.25.250.11:/srv/nfs_share /mnt/nfs_docs nfs defaults,_netdev 0 0
 # Explicação das opções:
 #   nfs: tipo de sistema de arquivos
 #   defaults: opções padrão (rw, suid, dev, exec, auto, nouser, async)
 #   _netdev: garante que a montagem ocorra apenas após a rede estar disponível
 
 # Exemplo completo da linha para /etc/fstab:
-# 192.168.xxx.10:/srv/nfs_share /mnt/nfs_docs nfs defaults,_netdev 0 0
+# 172.25.250.11:/srv/nfs_share /mnt/nfs_docs nfs defaults,_netdev 0 0
 
 # Teste a entrada do fstab sem reiniciar.
 # Primeiro, desmonte o compartilhamento para garantir que o 'mount -a' irá montá-lo.
@@ -824,7 +824,7 @@ echo "Isso é um teste de escrita do cliente." | sudo tee /mnt/nfs_docs/teste_es
 ls -l /mnt/nfs_docs/
 
 # Verifique no servidor se os arquivos do cliente apareceram (opcional, mas recomendado).
-# No servidor (192.168.xxx.10):
+# No servidor (172.25.250.11):
 # ls -l /srv/nfs_share/
 
 # Limpeza (opcional):
