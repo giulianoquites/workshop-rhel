@@ -47,7 +47,7 @@ Você precisa configurar o sistema com um IP estático e garantir que os serviç
 
 ### Objetivos:
 
-* Configure a interface de rede (ex: `eth0`, - use `ip a` para verificar o nome) com as seguintes configurações estáticas:
+* Configure a interface de rede (ex: `eth1`, - use `ip a` para verificar o nome) com as seguintes configurações estáticas:
     * Endereço IP no servera: **`172.25.250.110/24`**
 * Defina o hostname do sistema para **`servera.lab.example.com`**.
 * Reinicie o serviço de rede para aplicar as mudanças.
