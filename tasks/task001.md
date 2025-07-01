@@ -48,9 +48,7 @@ Você precisa configurar o sistema com um IP estático e garantir que os serviç
 ### Objetivos:
 
 * Configure a interface de rede principal (ex: `ens192`, `eth0` - use `ip a` para verificar o nome) com as seguintes configurações estáticas:
-    * Endereço IP: **`192.168.100.10/24`**
-    * Gateway: **`192.168.100.1`**
-    * Servidor DNS: **`8.8.8.8`**
+    * Endereço IP: **`192.168.xxx.10/24`**
 * Defina o hostname do sistema para **`servidorweb.example.com`**.
 * Reinicie o serviço de rede para aplicar as mudanças.
 * Verifique se o hostname e as configurações de IP foram aplicados.
@@ -216,27 +214,27 @@ Você tem dois servidores RHEL. Um deles será configurado como um **servidor NF
 
   * Duas máquinas RHEL (virtuais ou físicas), uma para o servidor e outra para o cliente.
   * Conectividade de rede entre elas. Anote os endereços IP de cada uma.
-      * **Servidor NFS:** Ex: `192.168.100.10`
-      * **Cliente NFS:** Ex: `192.168.100.20`
+      * **Servidor NFS:** Ex: `192.168.xxx.10`
+      * **Cliente NFS:** Ex: `192.168.xxx.20`
   * Acesso `root` ou `sudo` em ambas as máquinas.
 
 ### Objetivos:
 
-**No Servidor NFS (`192.168.100.10`):**
+**No Servidor NFS (`192.168.xxx.10`):**
 
 1.  Instale os pacotes necessários para o servidor NFS.
 2.  Crie um diretório para ser compartilhado via NFS (ex: `/srv/nfs_share`).
 3.  Defina permissões e propriedade adequadas para o diretório compartilhado.
 4.  Configure o FirewallD para permitir o tráfego NFS.
-5.  Exporte o diretório `/srv/nfs_share` para ser acessível pelo cliente NFS (`192.168.100.20`), permitindo leitura e escrita, e `sync` para garantir a gravação imediata.
+5.  Exporte o diretório `/srv/nfs_share` para ser acessível pelo cliente NFS (`192.168.xxx.20`), permitindo leitura e escrita, e `sync` para garantir a gravação imediata.
 6.  Reinicie e habilite o serviço NFS no boot.
 7.  Verifique as exportações do servidor.
 
-**No Cliente NFS (`192.168.100.20`):**
+**No Cliente NFS (`192.168.xxx.20`):**
 
 1.  Instale os pacotes necessários para o cliente NFS.
 2.  Crie um ponto de montagem para o compartilhamento NFS (ex: `/mnt/nfs_docs`).
-3.  Monte o compartilhamento NFS do servidor (`192.168.100.10:/srv/nfs_share`) no ponto de montagem do cliente.
+3.  Monte o compartilhamento NFS do servidor (`192.168.xxx.10:/srv/nfs_share`) no ponto de montagem do cliente.
 4.  Configure a montagem automática do compartilhamento NFS na inicialização do sistema usando `/etc/fstab`.
 5.  Teste a conectividade e a capacidade de leitura/escrita no compartilhamento montado.
 

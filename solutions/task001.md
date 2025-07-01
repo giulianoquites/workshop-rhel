@@ -129,7 +129,7 @@ df -h /var/www/html/site
 # 1. Configure a interface de rede principal com IP estático.
 # (Substitua 'enp0s3' pelo nome da sua interface, ex: ens192, eth0)
 # A forma mais robusta é usando nmcli:
-sudo nmcli connection modify enp0s3 ipv4.method manual ipv4.addresses 192.168.100.10/24 ipv4.gateway 192.168.100.1 ipv4.dns 8.8.8.8 autoconnect yes connection.zone public
+sudo nmcli connection modify enp0s3 ipv4.method manual ipv4.addresses 192.168.xxx.10/24 autoconnect yes connection.zone public
 
 # Para o hostname, edite o arquivo /etc/hostname:
 sudo hostnamectl set-hostname servidorweb.example.com
@@ -720,7 +720,7 @@ echo "Exercício concluído!"
 
 Vamos passo a passo para configurar ambos os lados.
 
-### Parte 1: Configuração do Servidor NFS (`192.168.100.10`)
+### Parte 1: Configuração do Servidor NFS (`192.168.xxx.10`)
 
 ```bash
 # 1. Instale os pacotes necessários para o servidor NFS.
@@ -752,15 +752,15 @@ sudo firewall-cmd --list-all | grep services
 sudo vi /etc/exports # ou sudo nano /etc/exports
 
 # Adicione a seguinte linha no final do arquivo:
-# Substitua 192.168.100.20 pelo IP real do seu cliente NFS.
-# /srv/nfs_share 192.168.100.20(rw,sync,no_root_squash)
+# Substitua 192.168.xx.20 pelo IP real do seu cliente NFS.
+# /srv/nfs_share 192.168.xx.20(rw,sync,no_root_squash)
 # Explicação das opções:
 #   rw: leitura e escrita
 #   sync: garante que as alterações sejam gravadas no disco antes de responder ao cliente
 #   no_root_squash: permite que o usuário root do cliente acesse o compartilhamento como root no servidor (use com cautela)
 
 # Exemplo completo da linha para /etc/exports:
-# /srv/nfs_share 192.168.100.20(rw,sync,no_root_squash)
+# /srv/nfs_share 192.168.xx.20(rw,sync,no_root_squash)
 
 # 6. Reinicie e habilite o serviço NFS no boot.
 # O nfs-server.service lida com os serviços relacionados ao NFS.
@@ -776,7 +776,7 @@ exportfs -v
 
 -----
 
-### Parte 2: Configuração do Cliente NFS (`192.168.100.20`)
+### Parte 2: Configuração do Cliente NFS (`192.168.xx.20`)
 
 ```bash
 # 1. Instale os pacotes necessários para o cliente NFS.
@@ -786,8 +786,8 @@ sudo dnf install -y nfs-utils
 sudo mkdir -p /mnt/nfs_docs
 
 # 3. Monte o compartilhamento NFS do servidor no ponto de montagem do cliente.
-# Substitua 192.168.100.10 pelo IP real do seu servidor NFS.
-sudo mount 192.168.100.10:/srv/nfs_share /mnt/nfs_docs
+# Substitua 192.168.xxx.10 pelo IP real do seu servidor NFS.
+sudo mount 192.168.xxx.10:/srv/nfs_share /mnt/nfs_docs
 
 # Verifique se a montagem foi bem-sucedida.
 df -h /mnt/nfs_docs
@@ -798,15 +798,15 @@ df -h /mnt/nfs_docs
 sudo vi /etc/fstab # ou sudo nano /etc/fstab
 
 # Adicione a seguinte linha no final do arquivo:
-# Substitua 192.168.100.10 pelo IP real do seu servidor NFS.
-# 192.168.100.10:/srv/nfs_share /mnt/nfs_docs nfs defaults,_netdev 0 0
+# Substitua 192.168.xxx.10 pelo IP real do seu servidor NFS.
+# 192.168.xxx.10:/srv/nfs_share /mnt/nfs_docs nfs defaults,_netdev 0 0
 # Explicação das opções:
 #   nfs: tipo de sistema de arquivos
 #   defaults: opções padrão (rw, suid, dev, exec, auto, nouser, async)
 #   _netdev: garante que a montagem ocorra apenas após a rede estar disponível
 
 # Exemplo completo da linha para /etc/fstab:
-# 192.168.100.10:/srv/nfs_share /mnt/nfs_docs nfs defaults,_netdev 0 0
+# 192.168.xxx.10:/srv/nfs_share /mnt/nfs_docs nfs defaults,_netdev 0 0
 
 # Teste a entrada do fstab sem reiniciar.
 # Primeiro, desmonte o compartilhamento para garantir que o 'mount -a' irá montá-lo.
@@ -824,7 +824,7 @@ echo "Isso é um teste de escrita do cliente." | sudo tee /mnt/nfs_docs/teste_es
 ls -l /mnt/nfs_docs/
 
 # Verifique no servidor se os arquivos do cliente apareceram (opcional, mas recomendado).
-# No servidor (192.168.100.10):
+# No servidor (192.168.xxx.10):
 # ls -l /srv/nfs_share/
 
 # Limpeza (opcional):
